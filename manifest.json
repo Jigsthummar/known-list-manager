@@ -1,0 +1,10 @@
+{
+  "name": "Known List Manager",
+  "short_name": "KnownApp",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "description": "A personal data entry app by Jignesh Thummar.",
+  "icons": []
+}

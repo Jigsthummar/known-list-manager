@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Name Entry</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com "></script>
+
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css " />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles/main.css" />
+
+  <!-- Manifest for PWA -->
+  <link rel="manifest" href="manifest.json" />
+</head>
+
+<script>
+  function updateIndianTime() {
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      weekday: 'long',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    };
+
+    const formatter = new Intl.DateTimeFormat('en-IN', options);
+
+    const parts = formatter.formatToParts(new Date()).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+
+    const dateStr = `${parts.weekday}, ${parts.day}-${parts.month}-${parts.year}`;
+    const timeStr = `${parts.hour}:${parts.minute} ${parts.dayPeriod || (parts.hour12 === 'hour' ? '' : '')}`;
+
+    document.getElementById("time-text").textContent = `${dateStr} | ${timeStr}`;
+  }
+
+  // Update every second
+  setInterval(updateIndianTime, 1000);
+  updateIndianTime(); // Initial call
+</script> 
+<body class="bg-gray-900 text-white min-h-screen flex flex-col font-sans">
+
+  <!-- Header -->
+<header class="p-5 border-b border-gray-700 shadow-md bg-gray-800 flex justify-between items-center">
+  <h1 class="text-3xl font-bold text-blue-400">Forever List Manager</h1>
+  <div id="indian-time" class="flex items-center space-x-2 text-sm text-gray-300 whitespace-nowrap">
+    <i class="fas fa-clock"></i>
+    <span id="time-text">Loading...</span>
+  </div>
+</header>
+
+  <!-- Main Content -->
+  <main class="p-4 md:p-6 max-w-7xl mx-auto w-full space-y-8 flex-grow">
+
+    <!-- Form Section -->
+    <section id="form-section" class="bg-gray-800 p-6 rounded-xl shadow-lg transition transform hover:scale-[1.01] duration-200">
+      <h2 class="text-2xl font-semibold mb-6 text-blue-400 border-b border-gray-600 pb-2">Add New Entry</h2>
+      <form id="data-form" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+          <!-- Name -->
+          <input type="text" id="name" placeholder="Name" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+
+          <!-- Age -->
+          <input type="number" id="age" placeholder="Age" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+
+          <!-- Contact No -->
+          <input type="tel" id="contact" placeholder="Contact No." required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+
+          <!-- State Dropdown -->
+          <select id="state" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+            <option value="">Select State</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Delhi">Delhi</option>
+          </select>
+
+          <!-- City Dropdown -->
+          <select id="city" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+            <option value="">Select City</option>
+          </select>
+
+          <!-- Profession -->
+          <input type="text" id="profession" placeholder="Profession" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+
+          <!-- Relation -->
+          <input type="text" id="relation" placeholder="Relation" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+
+          <!-- Review -->
+          <textarea id="review" placeholder="Review (optional)" rows="3" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="mt-4 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white px-8 py-3 rounded-lg shadow-md transform transition hover:scale-105 duration-200 font-medium">
+          Save Entry
+        </button>
+      </form>
+    </section>
+
+    <!-- Table View Section -->
+    <section id="table-section" class="bg-gray-800 p-6 rounded-xl shadow-lg transition transform hover:scale-[1.01] duration-200">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-blue-400">Data List</h2>
+        <div class="flex flex-wrap gap-3">
+          <button id="export-pdf" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow hover:shadow-lg transition duration-200 flex items-center gap-2">
+            <i class="fas fa-file-pdf"></i> Export PDF
+          </button>
+        
+          <button id="backup-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg shadow hover:shadow-lg transition duration-200 flex items-center gap-2">
+            <i class="fas fa-cloud-upload-alt"></i> Backup Data
+          </button>
+          <button id="restore-btn" class="bg-pink-600 hover:bg-pink-700 text-white px-5 py-2 rounded-lg shadow hover:shadow-lg transition duration-200 flex items-center gap-2">
+            <i class="fas fa-cloud-download-alt"></i> Restore Data
+          </button>
+          <input type="file" id="restore-file" accept=".json" hidden />
+        </div>
+      </div>
+
+      <!-- Search Input -->
+      <div class="mb-4">
+        <input type="text" id="search-input" placeholder="Search by Name, City or Profession..." class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition" />
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto rounded-lg shadow-inner">
+        <table id="data-table" class="w-full table-auto text-sm border-collapse">
+          <thead class="bg-gray-700 text-gray-300 uppercase text-xs">
+            <tr>
+              <th class="px-4 py-3">#</th>
+              <th class="px-4 py-3">Name</th>
+              <th class="px-4 py-3">Age</th>
+              <th class="px-4 py-3">Contact</th>
+              <th class="px-4 py-3">City</th>
+              <th class="px-4 py-3">State</th>
+              <th class="px-4 py-3">Profession</th>
+              <th class="px-4 py-3">Relation</th>
+              <th class="px-4 py-3">Review</th>
+              <th class="px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-gray-700">
+            <!-- Entries will be inserted here dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="mt-auto p-4 text-center text-gray-500 text-sm border-t border-gray-700 bg-gray-800">
+    App created by 
+    <a href="https://www.instagram.com/official.jignesh.1/ " target="_blank" class="underline hover:text-blue-400">@official.jignesh.1</a> | Jignesh Thummar
+  </footer>
+
+  <!-- External Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js "></script>
+
+<!-- Scripts -->
+<script src="scripts/db.js"></script>
+<script src="scripts/form.js"></script>
+<script src="scripts/table.js"></script>
+<script src="scripts/export.js"></script>
+<script src="scripts/backup.js"></script>
+<script src="scripts/pwa.js"></script>
+</body>
+</html>

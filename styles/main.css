@@ -1,0 +1,16 @@
+/* Optional custom styles */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+input, select, textarea {
+  border: 1px solid #4b5563;
+}
+
+@media print, screen {
+  td, th {
+    color: #000 !important;
+    background-color: #fff !important;
+    border: 1px solid #000 !important;
+  }
+}
