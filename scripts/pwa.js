@@ -14,11 +14,17 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+  if (/Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+  // Show install banner only on mobile
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   // Prevent the default prompt
   e.preventDefault();
   // Store the event for later triggering
   deferredPrompt = e;
+
+
   
   // Show custom install button or banner
   const installBtn = document.createElement('button');
