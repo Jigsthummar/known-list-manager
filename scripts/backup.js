@@ -41,3 +41,41 @@ document.getElementById("restore-file")?.addEventListener("change", function (e)
   };
   reader.readAsText(file);
 });
+
+document.getElementById("export-csv")?.addEventListener("click", () => {
+  getAllEntries(entries => {
+    const csv = Papa.unparse(entries);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "known_list.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+});
+
+document.getElementById("import-csv")?.addEventListener("change", function (e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  Papa.parse(file, {
+    header: true,
+    complete: function(results) {
+      const entries = results.data;
+      if (window.dbType === "localStorage") {
+        localStorage.setItem("entries", JSON.stringify(entries));
+      } else {
+        const transaction = db.transaction(["entries"], "readwrite");
+        const store = transaction.objectStore("entries");
+        store.clear();
+        entries.forEach(entry => store.add(entry));
+      }
+
+      alert("CSV data imported successfully!");
+      loadTable();
+    }
+  });
+});

@@ -1,15 +1,12 @@
 // scripts/form.js
 
-// Initialize editingId globally
 window.editingId = null;
 
-// Auto-focus first input on page load
 window.addEventListener("load", () => {
   const nameField = document.getElementById("name");
   if (nameField) nameField.focus();
 });
 
-// State to Cities Mapping
 const stateToCities = {
   "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Anand", "Nadiad"],
   "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Aurangabad"],
@@ -48,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Tab key navigation between inputs
   const formFields = [
     "#name",
     "#age",
@@ -74,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Ctrl+S shortcut to submit form
   document.addEventListener("keydown", function (e) {
     if ((e.ctrlKey || e.metaKey) && e.key === "s") {
       e.preventDefault();
@@ -83,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Save or Update Entry
   document.getElementById("data-form")?.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -98,13 +92,18 @@ document.addEventListener("DOMContentLoaded", function () {
       review: document.getElementById("review").value.trim()
     };
 
+    if (!entry.name || !entry.contact || !entry.state || !entry.city || !entry.relation) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     if (window.editingId) {
       entry.id = window.editingId;
       updateEntry(entry, () => {
         window.editingId = null;
         this.reset();
         if (typeof loadTable === 'function') {
-          loadTable(); // Call global loadTable
+          loadTable();
         }
         document.getElementById("name").focus();
       });
@@ -112,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
       saveEntry(entry, () => {
         this.reset();
         if (typeof loadTable === 'function') {
-          loadTable(); // Call global loadTable
+          loadTable();
         }
         document.getElementById("name").focus();
       });
