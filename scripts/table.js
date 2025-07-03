@@ -21,9 +21,6 @@ function renderTable(entries) {
       <td class="px-4 py-3">${entry.age || ""}</td>
       <td class="px-4 py-3">
         ${entry.contact || ""}
-        <a href="${entry.contact ? `https://wa.me/ ${entry.contact}` : "#"}" target="_blank" class="ml-2 text-green-400 ${entry.contact ? '' : 'hidden'}">
-          <i class="fab fa-whatsapp"></i>
-        </a>
       </td>
       <td class="px-4 py-3">${entry.city || ""}</td>
       <td class="px-4 py-3">${entry.state || ""}</td>

@@ -63,8 +63,20 @@ document.getElementById("import-csv")?.addEventListener("change", function (e) {
 
   Papa.parse(file, {
     header: true,
+    skipEmptyLines: true,
     complete: function(results) {
-      const entries = results.data;
+      const entries = results.data.map(entry => ({
+        id: Math.floor(Math.random() * 100000),
+        name: entry.name || "",
+        age: entry.age || "",
+        contact: entry.contact || "",
+        state: entry.state || "",
+        city: entry.city || "",
+        profession: entry.profession || "",
+        relation: entry.relation || "",
+        review: entry.review || ""
+      }));
+
       if (window.dbType === "localStorage") {
         localStorage.setItem("entries", JSON.stringify(entries));
       } else {

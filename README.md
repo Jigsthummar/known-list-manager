@@ -36,3 +36,19 @@ Made with ❤️ by [Jignesh Thummar](https://www.instagram.com/official.jignesh
 ---
 
 ## 📦 Folder Structure
+known-list-manager/
+│
+├── index.html # Main HTML page
+├── manifest.json # PWA metadata
+├── sw.js # Service worker for offline caching
+├── styles/
+│ └── main.css # Custom dark mode styles
+├── scripts/
+│ ├── db.js # IndexedDB / localStorage logic
+│ ├── form.js # Form input handling and validation
+│ ├── table.js # Table rendering and live search
+│ ├── export.js # PDF export with formatting
+│ ├── backup.js # JSON & CSV import/export
+│ ├── pwa.js # PWA registration and install prompt
+│
+└── README.md # This file
