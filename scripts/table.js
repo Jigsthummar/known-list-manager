@@ -19,9 +19,7 @@ function renderTable(entries) {
       <td class="px-4 py-3">${index + 1}</td>
       <td class="px-4 py-3">${entry.name || ""}</td>
       <td class="px-4 py-3">${entry.age || ""}</td>
-      <td class="px-4 py-3">
-        ${entry.contact || ""}
-      </td>
+      <td class="px-4 py-3">${entry.contact || ""}</td>
       <td class="px-4 py-3">${entry.city || ""}</td>
       <td class="px-4 py-3">${entry.state || ""}</td>
       <td class="px-4 py-3">${entry.profession || ""}</td>

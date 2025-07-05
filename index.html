@@ -16,42 +16,11 @@
 
   <!-- Manifest for PWA -->
   <link rel="manifest" href="manifest.json" />
+
+  <!-- Header and Body will come here -->
 </head>
 
 <body class="bg-gray-900 text-white min-h-screen flex flex-col font-sans">
-
-  <!-- Live Time Script -->
-  <script>
-    function updateIndianTime() {
-      const options = {
-        timeZone: 'Asia/Kolkata',
-        weekday: 'long',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true
-      };
-
-      const formatter = new Intl.DateTimeFormat('en-IN', options);
-
-      const parts = formatter.formatToParts(new Date()).reduce((acc, part) => {
-        acc[part.type] = part.value;
-        return acc;
-      }, {});
-
-      const dateStr = `${parts.weekday}, ${parts.day}-${parts.month}-${parts.year}`;
-      const timeStr = `${parts.hour}:${parts.minute} ${parts.dayPeriod || ''}`;
-
-      document.getElementById("time-text").textContent = `${dateStr} | ${timeStr}`;
-    }
-
-    // Update every second
-    setInterval(updateIndianTime, 1000);
-    updateIndianTime(); // Initial call
-  </script>
 
   <!-- Header -->
   <header class="p-5 border-b border-gray-700 shadow-md bg-gray-800 flex justify-between items-center">
@@ -69,7 +38,7 @@
     <section id="form-section" class="bg-gray-800 p-6 rounded-xl shadow-lg transition transform hover:scale-[1.01] duration-200">
       <h2 class="text-2xl font-semibold mb-6 text-blue-400 border-b border-gray-600 pb-2">Add New Entry</h2>
       <form id="data-form" class="space-y-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 gap-6">
 
           <!-- Name -->
           <input type="text" id="name" placeholder="Name" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
@@ -78,7 +47,7 @@
           <input type="number" id="age" placeholder="Age" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
 
           <!-- Contact No -->
-          <input type="tel" id="contact" placeholder="Contact No." required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
+          <input type="tel" id="contact" placeholder="Contact No." inputmode="numeric" pattern="[0-9]*" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
 
           <!-- State Dropdown -->
           <select id="state" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
@@ -90,16 +59,6 @@
             <option value="Tamil Nadu">Tamil Nadu</option>
             <option value="Delhi">Delhi</option>
           </select>
-
-          <!-- Wrap form and table sections -->
-<div class="md:flex md:space-x-6">
-  <section id="form-section" class="w-full md:w-1/2 mb-8 md:mb-0">
-    <!-- Form goes here -->
-  </section>
-  <section id="table-section" class="w-full md:w-1/2 overflow-x-auto">
-    <!-- Table goes here -->
-  </section>
-</div>
 
           <!-- City Dropdown -->
           <select id="city" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-40 outline-none transition">
@@ -183,7 +142,6 @@
   <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js "></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js "></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js "></script>
 
   <!-- Scripts -->
@@ -193,5 +151,41 @@
   <script src="scripts/export.js"></script>
   <script src="scripts/backup.js"></script>
   <script src="scripts/pwa.js"></script>
+
+  <!-- Live Indian Time Script -->
+  <script>
+    function updateIndianTime() {
+      const options = {
+        timeZone: 'Asia/Kolkata',
+        weekday: 'long',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      };
+
+      const formatter = new Intl.DateTimeFormat('en-IN', options);
+
+      const parts = formatter.formatToParts(new Date()).reduce((acc, part) => {
+        acc[part.type] = part.value;
+        return acc;
+      }, {});
+
+      const dateStr = `${parts.weekday}, ${parts.day}-${parts.month}-${parts.year}`;
+      const timeStr = `${parts.hour}:${parts.minute} ${parts.dayPeriod || ''}`;
+
+      const el = document.getElementById("time-text");
+      if (el) {
+        el.textContent = `${dateStr} | ${timeStr}`;
+      }
+    }
+
+    // Update every second
+    setInterval(updateIndianTime, 1000);
+    updateIndianTime(); // Initial call
+  </script>
 </body>
 </html>

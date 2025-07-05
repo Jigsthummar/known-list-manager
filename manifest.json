@@ -18,7 +18,6 @@
       "type": "image/png"
     }
   ],
-  "orientation": "portrait",
-  "scope": "/",
-  "lang": "en-US"
+  "lang": "en-US",
+  "orientation": "portrait"
 }

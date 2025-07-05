@@ -1,6 +1,5 @@
 // scripts/form.js
 
-// Initialize editingId globally
 window.editingId = null;
 
 // Auto-focus first input on page load
